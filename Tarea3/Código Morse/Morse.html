@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Codigo Morse</title>
+</head>
+<body>
+
+    <h1>Traductor de Codigo Morse</h1>
+
+    <script>
+
+        let abecedario = {"A": ".-", "B": "-...", "C": "-.-.", "D": "-..", "E": ".", "F": "..-.", "G": "--.", "H": "....", "I": "..",
+            "J": ".---", "K": "-.-", "L": ".-..", "M": "--", "N": "-.", "Ñ": "--.--", "O": "---", "P": ".--.", "Q": "--.--", "R": ".-.",
+            "S": "...", "T": "-", "U": "..-", "V": "...-", "W": ".--", "X": "-..-", "Y": "-.--", "Z": "--..",
+
+            "0": "-----", "1": ".----", "2": "..---", "3": "...--", "4": "....-", "5": ".....", "6": "-....", "7": "--...", "8": "---..", "9": "----.",
+
+            ".": ".-.-.-", ",": "--.--", "?": "..--..", "\"": ".-..-.", "/": "-..-.", ":": "---..", ";": "-.-.-.", "=": "-...-", "+": ".-.-.",
+            "-": "-....-", "_": "..--.-", "@": ".--.-."
+        }
+
+        let entrada = window.prompt("Escribe codigo morse o un texto: ");
+
+        if (entrada != null && entrada.trim() != ""){
+            
+            entrada = entrada.toUpperCase().trim();
+
+            let res = "";
+
+            let esMorse = /^[.\--\s]+$/.test(entrada); 
+
+            if (esMorse){
+
+                let alReves = {};
+
+                for (let letra in abecedario){
+                    alReves[abecedario[letra]] = letra;
+                }
+
+                entrada = entrada.replace(/-/g, "-"); 
+
+                let palabras = entrada.split(/\s{2,}/);
+
+                for (let i = 0; i < palabras.length; i++){
+                    let letras = palabras[i].split(" ");
+
+                    for (let j = 0; j < letras.length; j++){
+                        if (alReves[letras[j]] != undefined){
+                            res += alReves[letras[j]];
+                        } else {
+                            res += "?";
+                        }
+                    }
+
+                    if (i < palabras.length - 1){
+                        res += " ";
+                    }
+                }
+            
+            } else {
+                
+                for (let i = 0; i < entrada.length; i++){
+                    if (entrada[i] == " "){
+                        res += "  ";
+                    } else if (abecedario[entrada[i]] !== undefined){
+                        res += abecedario[entrada[i]] + " ";
+                    } else { 
+                        res += "?"; 
+                    } 
+                }
+
+                res = res.trim();
+
+                res = res.replace(/-/g, "-");
+            }
+
+            let parrafo = document.createElement("p");
+
+            parrafo.textContent = "Resultado: " + res;
+
+            document.body.appendChild(parrafo);
+
+        } else {
+            document.body.append("No has introducido nada");
+        }
+
+    </script>
+
+</body>
+</html>
